@@ -21,13 +21,13 @@ data RDashdo m = forall t. RDashdo
 
 data Dashdo m t = Dashdo
   { initial :: t
-  , render :: SHtml m t }
+  , render :: SHtml m () }
 
-runSHtml :: Monad m => t -> SHtml m t -> m (FormFields t, TL.Text)
+runSHtml :: Monad m => t -> SHtml m t -> m (TL.Text, FormFields t)
 runSHtml val shtml = do
   let stT = renderTextT shtml
   (t, (_, _, ffs)) <- runStateT stT (0, val, [])  -- TODO: val in initial state can not match with () in stT
-  return (ffs, t)
+  return (t, ffs)
 
 mkFieldName :: Int -> Text
 mkFieldName = ((<>) "f") . pack . show

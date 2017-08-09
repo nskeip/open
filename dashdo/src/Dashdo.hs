@@ -10,9 +10,7 @@ pureDashdo :: Monad m => a -> (a -> SHtml m ()) -> Dashdo m a
 pureDashdo ini f = undefined -- Dashdo ini (\x () -> f x)
 
 dashdoGenOut :: Monad m => Dashdo m a -> a -> m (TL.Text, FormFields a)
-dashdoGenOut (Dashdo _ r) val = do
-  (formFs, htmlText) <- runSHtml val r
-  return (htmlText, formFs)
+dashdoGenOut (Dashdo _ r) val = runSHtml val r
 
 parseForm :: a -> FormFields a -> [(TL.Text, TL.Text)] -> a
 parseForm x [] _ = x
